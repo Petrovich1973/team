@@ -1,25 +1,23 @@
-import logo from './logo.svg';
+import React from 'react'
+import {Users} from './Users'
+import {FormAddedUser} from './FormAddedUser'
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 22222222222222
-        </a>
-      </header>
-    </div>
-  );
+    const [flag, setFlag] = React.useState(Date.now())
+
+    const createSuccess = (date) => {
+        setFlag(date)
+    }
+    return (
+        <div className="App">
+            <header className="App-header">
+                Users {flag}
+            </header>
+            <FormAddedUser createSuccess={createSuccess}/>
+            <Users flag={flag}/>
+        </div>
+    );
 }
 
 export default App;

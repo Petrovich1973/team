@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "roy",
+      "location": "india"
+    },
+    {
+      "id": 2,
+      "name": "sam",
+      "location": "wales"
+    },
+    {
+      "name": "ii",
+      "location": "la",
+      "id": 3
+    },
+    {
+      "name": "Shona",
+      "location": "LA",
+      "id": 4
+    },
+    {
+      "name": "Shona",
+      "location": "LA",
+      "id": 5
+    }
+  ]
+}
