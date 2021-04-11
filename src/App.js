@@ -1,7 +1,7 @@
 import React from 'react'
 import {Users} from './Users'
 import {FormAddedUser} from './FormAddedUser'
-import './App.css';
+import './App.css'
 
 function App() {
     const [flag, setFlag] = React.useState(Date.now())
@@ -17,7 +17,7 @@ function App() {
             <FormAddedUser createSuccess={createSuccess}/>
             <Users flag={flag}/>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
