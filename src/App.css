@@ -19,12 +19,13 @@
   color: white;
 }
 
-input[type=text] {
+input[type=text], button {
   height: calc(1em + .5vmin);
   font-size: calc(1em + .1vmin);
   padding: 0 .3em;
 }
 
+/*spinner*/
 .lds-dual-ring {
   display: inline-block;
   width: 16px;

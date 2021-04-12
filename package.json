@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "json-server ./server/info.json -p 5000 -d 1000",
+    "server": "json-server ./server/info.json -p 5000 -d 600",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

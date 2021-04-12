@@ -1,41 +1,73 @@
-import React from 'react'
+import React, {useContext, useEffect, useState} from "react"
+import {ContextApp} from "./reducer.js"
 import axios from 'axios'
 
 const url = 'http://localhost:5000/users'
 
-export const Users = ({flag = Date.now()}) => {
-    const [users, setUsers] = React.useState([])
-    const [update, setUpdate] = React.useState(Date.now())
-    const [pending, setPending] = React.useState([])
-    const [blockedItems, setBlockedItems] = React.useState([])
+export const Users = () => {
+    const {state, dispatch} = useContext(ContextApp || null)
+    const {users = [], usersBlocked = [], flagUpdateUsers = null} = state
+    const [pending, setPending] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         (() => onFetchList())()
-    }, [flag, update])
+        return () => {
+            clearUsersBlocked()
+        }
+    }, [flagUpdateUsers])
+
+    const clearUsersBlocked = () => {
+        dispatch({
+            type: 'STATE_UPDATE',
+            payload: {
+                usersBlocked: []
+            }
+        })
+    }
 
     const onFetchList = async () => {
-        const time = Date.now()
-        setPending(p => [...p, time])
+        setPending(true)
         await axios(url)
             .then(result => {
-                setUsers(result.data)
-                setPending(p => p.filter(i => i !== time))
+                dispatch({
+                    type: 'STATE_UPDATE',
+                    payload: {
+                        users: result.data
+                    }
+                })
+                setPending(false)
             })
-            .catch(e => {
-                setPending(p => p.filter(i => i !== time))
+            .catch(err => {
+                console.log(err)
+                setPending(false)
             })
     }
 
     const onDeleteItem = async (id) => {
-        setBlockedItems(s => [...s, id])
+        dispatch({
+            type: 'STATE_UPDATE',
+            payload: {
+                usersBlocked: [...usersBlocked, id]
+            }
+        })
         const result = await axios.delete(`${url}/${id}`)
-        setBlockedItems(s => s.filter(f => f !== id))
+        dispatch({
+            type: 'STATE_UPDATE',
+            payload: {
+                usersBlocked: usersBlocked.filter(f => f !== id)
+            }
+        })
         try {
             if (result.status === 200) {
-                setUpdate(Date.now())
+                dispatch({
+                    type: 'STATE_UPDATE',
+                    payload: {
+                        users: users.filter(f => f.id !== id)
+                    }
+                })
             }
-        } catch (e) {
-            console.error(e)
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -53,9 +85,11 @@ export const Users = ({flag = Date.now()}) => {
                 <tbody>
                 {users.map((item, idx) => {
                     const {id, name, location} = item
-                    const isBlocked = blockedItems.includes(id)
+                    const isBlocked = usersBlocked.includes(id)
                     return (
-                        <tr className={'list_item'} key={idx}>
+                        <tr
+                            className={`list_item ${isBlocked && 'list_item-hover'}`}
+                            key={idx}>
                             <td>{id}</td>
                             <td>{name}</td>
                             <td>{location}</td>
@@ -63,15 +97,7 @@ export const Users = ({flag = Date.now()}) => {
                                 {!isBlocked && <span
                                     title={'Remove item'}
                                     className={'list_item_btn-delete'}
-                                    onMouseOver={(t) => {
-                                        t.target.parentElement.parentElement.classList.add('list_item-hover')
-                                    }}
-                                    onMouseOut={(t) => {
-                                        if(!isBlocked) t.target.parentElement.parentElement.classList.remove('list_item-hover')
-                                    }}
-                                    onClick={() => {
-                                        if(!isBlocked) onDeleteItem(id)
-                                    }}>&#10005;</span>}
+                                    onClick={() => onDeleteItem(id)}>&#10005;</span>}
                             </td>
                         </tr>
                     )
@@ -79,7 +105,7 @@ export const Users = ({flag = Date.now()}) => {
                 }
                 </tbody>
 
-            </table> : pending.length ? <p>
+            </table> : pending ? <p>
                 waiting...
             </p> : <p>пока ничего нет</p>}
         </div>
