@@ -10,9 +10,14 @@ const defaultForm = {
 export const FormAddedUser = ({createSuccess = () => {console.log('createSuccess')}}) => {
 
     const [form, setForm] = React.useState(defaultForm)
+    const [pending, setPending] = React.useState(false)
+
+
 
     const onSend = async () => {
+        setPending(true)
         const result = await axios.post(url, form)
+        setPending(false)
         try {
             if (result.status === 201) {
                 setForm(defaultForm)
@@ -24,19 +29,21 @@ export const FormAddedUser = ({createSuccess = () => {console.log('createSuccess
     }
 
     return (
-        <div>
+        <div className={'form'}>
             <p>
-                <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})}/>
+                <input disabled={pending} type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})}/>
                 &nbsp;<span>name</span>
             </p>
             <p>
-                <input type="text" value={form.location}
+                <input disabled={pending} type="text" value={form.location}
                        onChange={e => setForm({...form, location: e.target.value})}/>
                 &nbsp;<span>location</span>
             </p>
-            <p>
-                <button onClick={onSend}>Create</button>
-            </p>
+            <div>
+                <button disabled={pending || Object.values(form).some(s => !s)} onClick={onSend}>Create</button>
+                &nbsp;
+                {pending && <div className="lds-dual-ring"/>}
+            </div>
         </div>
     )
 }
