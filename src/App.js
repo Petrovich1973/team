@@ -11,10 +11,12 @@ function App() {
         <ContextApp.Provider value={{dispatch, state}}>
             <div className="App">
                 <header className="App-header">
-                    Users
+                    <div className="container">Users</div>
                 </header>
-                <FormAddedUser/>
-                <Users/>
+                <div className="container">
+                    <FormAddedUser/>
+                    <Users/>
+                </div>
             </div>
         </ContextApp.Provider>
     )

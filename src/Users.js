@@ -14,6 +14,7 @@ export const Users = () => {
         return () => {
             clearUsersBlocked()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [flagUpdateUsers])
 
     const clearUsersBlocked = () => {
