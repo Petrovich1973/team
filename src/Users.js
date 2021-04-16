@@ -74,10 +74,15 @@ export const Users = () => {
 
     return (
         <div className={'list'}>
+            <div style={{color: 'green', opacity: pending && users.length ? 1 : 0}}>
+                <div className="lds-dual-ring colorGreen sm"/>
+                &nbsp;&nbsp;
+                <span>now being updated...</span>
+            </div>
             {users.length ? <table>
                 <thead>
                 <tr>
-                    <th>id</th>
+                    <th className={'align-right'}>id</th>
                     <th>name</th>
                     <th>location</th>
                     <th/>
@@ -91,7 +96,7 @@ export const Users = () => {
                         <tr
                             className={`list_item ${isBlocked && 'list_item-hover'}`}
                             key={idx}>
-                            <td>{id}</td>
+                            <td className={'align-right'}>{id}</td>
                             <td>{name}</td>
                             <td>{location}</td>
                             <td>

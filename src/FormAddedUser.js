@@ -12,6 +12,7 @@ export const FormAddedUser = () => {
     const {dispatch} = useContext(ContextApp || null)
     const [form, setForm] = useState(defaultForm)
     const [pending, setPending] = useState(false)
+    const isDisabled = pending || Object.values(form).some(s => !s)
 
 
     const onSend = async () => {
@@ -54,7 +55,8 @@ export const FormAddedUser = () => {
             </p>
             <div>
                 <button
-                    disabled={pending || Object.values(form).some(s => !s)}
+                    title={isDisabled ? 'Поля формы не должны быть пустыми' : 'Добавить пользователя'}
+                    disabled={isDisabled}
                     onClick={onSend}>Create user
                 </button>
                 &nbsp;
