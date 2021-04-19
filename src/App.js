@@ -1,7 +1,9 @@
 import React, {useReducer} from 'react'
-import {ContextApp, initialState, reducer} from "./reducer.js"
+import {ContextApp, initialState, reducer} from "./reducer"
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {Users} from './Users'
-import {FormAddedUser} from './FormAddedUser'
+import {NotFound} from './NotFound'
+import {Header} from "./Header"
 import './App.css'
 
 function App() {
@@ -9,15 +11,15 @@ function App() {
 
     return (
         <ContextApp.Provider value={{dispatch, state}}>
-            <div className="App">
-                <header className="App-header">
-                    <div className="container">Users</div>
-                </header>
-                <div className="container">
-                    <FormAddedUser/>
-                    <Users/>
+            <Router>
+                <div className="App">
+                    <Header/>
+                    <Switch>
+                        <Route path={`/users`} component={Users}/>
+                        <Route component={NotFound}/>
+                    </Switch>
                 </div>
-            </div>
+            </Router>
         </ContextApp.Provider>
     )
 }

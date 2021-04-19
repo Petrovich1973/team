@@ -1,29 +1,24 @@
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .container {
   max-width: 1440px;
   margin: 0 auto;
 }
 
 .App-header {
-  background-color: #282c34;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(1em + 1.2vmin);
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #282c34;
   color: white;
 }
-
+.App-header .title {
+  font-size: calc(1em + 1.2vmin);
+}
+.App-header a {
+  display: inline-block;
+  padding: 0 1rem;
+  color: inherit;
+}
 input[type=text], button {
   height: calc(1em + .5vmin);
   font-size: calc(1em + .1vmin);
@@ -110,6 +105,12 @@ button:disabled {
   background-color: #ff400c20;
 }
 
+.align-center {
+  text-align: center !important;
+}
 .align-right {
   text-align: right !important;
+}
+.align-left {
+  text-align: left !important;
 }
